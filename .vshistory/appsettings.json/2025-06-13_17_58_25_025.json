@@ -8,18 +8,9 @@
   "AllowedHosts": "*",
   "VNPay": {
     "Url": "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
-    "ReturnUrl": "http://10.0.2.2:5096/api/payment/vnpay/callback",
+    "ReturnUrl": "http://localhost:7290/api/payment/vnpay/callback",
     "TmnCode": "7CY9UEAF",
     "HashSecret": "DIGHI9T61AVLTF4C28ZTV6BX4HKI027T"
-  },
-  "VNPay1": {
-    "TmnCode": "7CY9UEAF",
-    "HashSecret": "DIGHI9T61AVLTF4C28ZTV6BX4HKI027T",
-    "BaseUrl": "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
-    "Version": "2.1.0",
-    "Command": "pay",
-    "CurrCode": "VND",
-    "Locale": "vn"
   },
   "Stripe": {
     "PublishableKey": "pk_test_YOUR_STRIPE_PUBLISHABLE_KEY",

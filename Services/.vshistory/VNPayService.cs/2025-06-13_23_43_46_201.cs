@@ -27,7 +27,7 @@ namespace ApiGateway.Services
 
         public VNPayResponse CreatePaymentUrl(VNPayRequest body)
         {
-            string returnUrl = "http://10.0.2.2:5096/api/payment/vnpay/callback";
+            string returnUrl = "https://hcs-api-dev.azurewebsites.net/api/Payment/PaymentReturn-VNPAY";
             ExchangRate exchangRate = new ExchangRate();
             double exchangeRate = exchangRate.GetUsdToVndExchangeRateAsync().Result;
             var AmountInUsd = Convert.ToDouble(body.Amount, CultureInfo.InvariantCulture);
@@ -50,7 +50,7 @@ namespace ApiGateway.Services
             vnPay.AddRequestData("vnp_Version", "2.1.0");
 
             string paymentUrl = vnPay.CreateRequestUrl(vnp_Url, _vnpHashSecret);
-            return new VNPayResponse { PaymentUrl = paymentUrl,Success = true };
+            return new VNPayResponse { PaymentUrl = paymentUrl };
         }
 
         public bool ValidateCallback(VNPayCallbackRequest callback)

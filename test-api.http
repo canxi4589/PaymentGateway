@@ -8,7 +8,7 @@ Content-Type: application/json
 {
   "amount": 100000,
   "orderId": "ORDER_12345",
-  "orderInfo": "Test payment for order 12345",
+  "orderInfo": "Thanh toan don hang 12345",
   "returnUrl": "myapp://payment-success"
 }
 

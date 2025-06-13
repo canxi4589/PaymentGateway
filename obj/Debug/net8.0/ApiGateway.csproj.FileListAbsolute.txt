@@ -41,10 +41,10 @@ C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\staticwebasse
 C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.ApiGateway.props
 C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.ApiGateway.props
 C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\ApiGateway.csproj.Up2Date
 C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\ApiGateway.dll
 C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\refint\ApiGateway.dll
 C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\ApiGateway.pdb
 C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\ApiGateway.genruntimeconfig.cache
 C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\ref\ApiGateway.dll
+C:\Users\caotr\source\repos\ApiGateway\ApiGateway\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

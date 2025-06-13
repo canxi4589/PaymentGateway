@@ -1,5 +1,4 @@
 using ApiGateway.Models;
-using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,7 +13,6 @@ namespace ApiGateway.Services
         private readonly string _vnpReturnUrl;
         private readonly string _vnpTmnCode;
         private readonly string _vnpHashSecret;
-        private readonly string vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
 
         public VNPayService(IConfiguration configuration)
         {
@@ -25,32 +23,50 @@ namespace ApiGateway.Services
             _vnpHashSecret = _configuration["VNPay:HashSecret"] ?? "";
         }
 
-        public VNPayResponse CreatePaymentUrl(VNPayRequest body)
+        public VNPayResponse CreatePaymentUrl(VNPayRequest request)
         {
-            string returnUrl = "http://10.0.2.2:5096/api/payment/vnpay/callback";
-            ExchangRate exchangRate = new ExchangRate();
-            double exchangeRate = exchangRate.GetUsdToVndExchangeRateAsync().Result;
-            var AmountInUsd = Convert.ToDouble(body.Amount, CultureInfo.InvariantCulture);
+            try
+            {
+                var createDate = DateTime.Now;
+                var expireDate = createDate.AddMinutes(15); // Payment expires in 15 minutes
+                
+                var vnpParams = new Dictionary<string, string>
+                {
+                    {"vnp_Version", "2.1.0"},
+                    {"vnp_Command", "pay"},
+                    {"vnp_TmnCode", _vnpTmnCode},
+                    {"vnp_Amount", ((long)(request.Amount * 100)).ToString()},
+                    {"vnp_CreateDate", createDate.ToString("yyyyMMddHHmmss")},
+                    {"vnp_CurrCode", "VND"},
+                    {"vnp_IpAddr", request.IpAddress},
+                    {"vnp_Locale", "vn"},
+                    {"vnp_OrderInfo", RemoveVietnameseDiacritics(request.OrderInfo)},
+                    {"vnp_OrderType", "other"},
+                    {"vnp_ReturnUrl", _vnpReturnUrl},
+                    {"vnp_ExpireDate", expireDate.ToString("yyyyMMddHHmmss")},
+                    {"vnp_TxnRef", request.OrderId}
+                };
 
-            double amountInVnd = Math.Round(exchangRate.ConvertUsdToVnd(AmountInUsd, exchangeRate));
+                var queryString = BuildQueryString(vnpParams);
+                var secureHash = CreateSecureHash(queryString, _vnpHashSecret);
+                var paymentUrl = $"{_vnpUrl}?{queryString}&vnp_SecureHash={secureHash}";
 
-            var vnPay = new VnPayLibrary();
-
-            vnPay.AddRequestData("vnp_Amount", (amountInVnd * 100).ToString());
-            vnPay.AddRequestData("vnp_Command", "pay");
-            vnPay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss"));
-            vnPay.AddRequestData("vnp_CurrCode", "VND");
-            vnPay.AddRequestData("vnp_IpAddr", "127.0.0.1");
-            vnPay.AddRequestData("vnp_Locale", "vn");
-            vnPay.AddRequestData("vnp_OrderInfo", body.OrderId);
-            vnPay.AddRequestData("vnp_OrderType", "other");
-            vnPay.AddRequestData("vnp_ReturnUrl", returnUrl);
-            vnPay.AddRequestData("vnp_TmnCode", _vnpTmnCode);
-            vnPay.AddRequestData("vnp_TxnRef", Guid.NewGuid().ToString());
-            vnPay.AddRequestData("vnp_Version", "2.1.0");
-
-            string paymentUrl = vnPay.CreateRequestUrl(vnp_Url, _vnpHashSecret);
-            return new VNPayResponse { PaymentUrl = paymentUrl,Success = true };
+                return new VNPayResponse
+                {
+                    Success = true,
+                    PaymentUrl = paymentUrl,
+                    TransactionId = request.OrderId,
+                    Message = "Payment URL created successfully"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new VNPayResponse
+                {
+                    Success = false,
+                    Message = $"Error creating payment URL: {ex.Message}"
+                };
+            }
         }
 
         public bool ValidateCallback(VNPayCallbackRequest callback)

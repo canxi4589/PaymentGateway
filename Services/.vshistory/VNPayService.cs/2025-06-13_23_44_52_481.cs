@@ -50,7 +50,7 @@ namespace ApiGateway.Services
             vnPay.AddRequestData("vnp_Version", "2.1.0");
 
             string paymentUrl = vnPay.CreateRequestUrl(vnp_Url, _vnpHashSecret);
-            return new VNPayResponse { PaymentUrl = paymentUrl,Success = true };
+            return new VNPayResponse { PaymentUrl = paymentUrl };
         }
 
         public bool ValidateCallback(VNPayCallbackRequest callback)
