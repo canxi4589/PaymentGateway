@@ -1,0 +1,59 @@
+### Health Check
+GET https://localhost:5001/api/payment/health
+
+### Create VNPay Payment
+POST https://localhost:5001/api/payment/vnpay/create
+Content-Type: application/json
+
+{
+  "amount": 100000,
+  "orderId": "ORDER_12345",
+  "orderInfo": "Test payment for order 12345",
+  "returnUrl": "myapp://payment-success"
+}
+
+### Create Stripe Payment
+POST https://localhost:5001/api/payment/stripe/create
+Content-Type: application/json
+
+{
+  "amount": 2000,
+  "currency": "usd",
+  "description": "Test payment",
+  "customerEmail": "test@example.com",
+  "successUrl": "myapp://payment-success",
+  "cancelUrl": "myapp://payment-cancel"
+}
+
+### Get Stripe Config
+GET https://localhost:5001/api/payment/stripe/config
+
+### Unified Payment API - VNPay
+POST https://localhost:5001/api/payment/create?provider=vnpay
+Content-Type: application/json
+
+{
+  "amount": 50000,
+  "currency": "VND",
+  "orderId": "ORDER_67890",
+  "description": "Test unified payment",
+  "returnUrl": "myapp://payment-success",
+  "cancelUrl": "myapp://payment-cancel",
+  "customerEmail": "customer@example.com",
+  "customerName": "John Doe"
+}
+
+### Unified Payment API - Stripe
+POST https://localhost:5001/api/payment/create?provider=stripe
+Content-Type: application/json
+
+{
+  "amount": 25.99,
+  "currency": "USD",
+  "orderId": "ORDER_STRIPE_123",
+  "description": "Test unified payment with Stripe",
+  "returnUrl": "myapp://payment-success",
+  "cancelUrl": "myapp://payment-cancel",
+  "customerEmail": "customer@example.com",
+  "customerName": "Jane Smith"
+} 
