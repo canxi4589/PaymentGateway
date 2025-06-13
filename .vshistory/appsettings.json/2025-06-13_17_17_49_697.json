@@ -8,7 +8,7 @@
   "AllowedHosts": "*",
   "VNPay": {
     "Url": "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
-    "ReturnUrl": "http://localhost:7290/api/payment/vnpay/callback",
+    "ReturnUrl": "http://localhost:5000/api/payment/vnpay/callback",
     "TmnCode": "7CY9UEAF",
     "HashSecret": "DIGHI9T61AVLTF4C28ZTV6BX4HKI027T"
   },
